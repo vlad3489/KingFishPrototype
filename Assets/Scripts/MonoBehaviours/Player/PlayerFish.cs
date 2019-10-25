@@ -14,7 +14,7 @@ namespace KingFish.Scripts
 		{
 			// TODO Create input manager
 			
-			if (Input.GetKey(KeyCode.Space))
+			if (Input.GetMouseButton(0))
 			{
 				Rigidbody2D.velocity = Vector2.down * GlobalConfig.PlayerDiveForce;
 			}
