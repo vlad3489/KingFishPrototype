@@ -7,10 +7,21 @@ namespace KingFish.Scripts
 {
 	public class AppManager : Singleton<AppManager>
 	{
-		[Header("Objects references:")]
-		[SerializeField] private GameObject[] _environmentObjects;
-		
+		[Header("External references:")]
+		[SerializeField] private BaseSpawner[] _spawners;
+		[SerializeField] private BaseInputManager _inputManager;
+
 		public event Action GameOver;
+
+		#region Properties
+
+		/// <summary>
+		/// Gets the currently Input provider.
+		/// </summary>
+		public IUserInputProvider InputProvider => _inputManager;
+
+		#endregion
+
 
 		/// <summary>
 		/// Automatically executed by Unity, on the frame when the script is enabled just before any of the Update methods is called the first time.
@@ -25,20 +36,19 @@ namespace KingFish.Scripts
 		/// </summary>
 		private void Init()
 		{
-			ActivateObjects(_environmentObjects);
+			ActivateSpawners();
 		}
 
 		/// <summary>
 		/// Spawners activator
 		/// </summary>
-		/// <param name="environmentObjects"></param>
-		private void ActivateObjects(GameObject[] environmentObjects)
+		private void ActivateSpawners()
 		{
-			foreach (var obj in _environmentObjects)
+			foreach (var spawner in _spawners)
 			{
-				if (!obj.activeInHierarchy)
+				if (!spawner.gameObject.activeInHierarchy)
 				{
-					obj.SetActive(true);
+					spawner.gameObject.SetActive(true);
 				}
 			}
 		}
